@@ -75,6 +75,16 @@ open class OverlayContainerViewController: UIViewController {
     open var availableSpace: CGFloat {
         return view.frame.height
     }
+    
+    open var upperController: UIViewController? {
+        didSet {
+            guard oldValue != upperController else {
+                return
+            }
+            
+            loadTopView()
+        }
+    }
 
     /// The style of the container.
     public let style: OverlayStyle
@@ -84,6 +94,7 @@ open class OverlayContainerViewController: UIViewController {
     private lazy var overlayTranslationView = OverlayTranslationView()
     private lazy var overlayTranslationContainerView = OverlayTranslationContainerView()
     private lazy var groundView = GroundView()
+    private lazy var topView = PassThroughView()
 
     private var overlayContainerViewStyleConstraint: NSLayoutConstraint?
     private var translationHeightConstraint: NSLayoutConstraint?
@@ -124,6 +135,7 @@ open class OverlayContainerViewController: UIViewController {
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         loadContainerViews()
         loadOverlayViews()
+        loadTopView()
     }
 
     open override func viewDidLoad() {
@@ -213,6 +225,10 @@ open class OverlayContainerViewController: UIViewController {
         view.addSubview(overlayTranslationContainerView)
         overlayTranslationContainerView.pinToSuperview()
         overlayTranslationContainerView.addSubview(overlayTranslationView)
+        overlayTranslationContainerView.addSubview(topView)
+        topView.backgroundColor = .red
+        topView.pinToSuperview(edges: [.top, .left, .right])
+        topView.bottomAnchor.constraint(equalTo: overlayTranslationView.topAnchor).isActive = true
         overlayTranslationView.addSubview(overlayContainerView)
         overlayTranslationView.pinToSuperview(edges: [.bottom, .left, .right])
         overlayContainerView.pinToSuperview(edges: [.left, .top, .right])
@@ -260,6 +276,14 @@ open class OverlayContainerViewController: UIViewController {
         truncatedViewControllers.popLast().flatMap { addChild($0, in: overlayContainerView) }
         truncatedViewControllers.forEach { addChild($0, in: groundView) }
         loadTranslationDrivers()
+    }
+    
+    private func loadTopView() {
+        guard let upperController = upperController else {
+            return
+        }
+
+        addChild(upperController, in: topView)
     }
 
     private func loadTranslationDrivers() {
