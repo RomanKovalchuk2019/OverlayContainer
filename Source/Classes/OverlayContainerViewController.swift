@@ -76,9 +76,9 @@ open class OverlayContainerViewController: UIViewController {
         return view.frame.height
     }
     
-    open var upperController: UIViewController? {
+    open var movingHeaderController: UIViewController? {
         didSet {
-            guard oldValue != upperController else {
+            guard oldValue != movingHeaderController else {
                 return
             }
             
@@ -226,7 +226,6 @@ open class OverlayContainerViewController: UIViewController {
         overlayTranslationContainerView.pinToSuperview()
         overlayTranslationContainerView.addSubview(overlayTranslationView)
         overlayTranslationContainerView.addSubview(topView)
-        topView.backgroundColor = .red
         topView.pinToSuperview(edges: [.top, .left, .right])
         topView.bottomAnchor.constraint(equalTo: overlayTranslationView.topAnchor).isActive = true
         overlayTranslationView.addSubview(overlayContainerView)
@@ -279,7 +278,7 @@ open class OverlayContainerViewController: UIViewController {
     }
     
     private func loadTopView() {
-        guard let upperController = upperController else {
+        guard let upperController = movingHeaderController else {
             return
         }
 
