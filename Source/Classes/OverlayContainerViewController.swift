@@ -134,8 +134,8 @@ open class OverlayContainerViewController: UIViewController {
         view = PassThroughView()
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         loadContainerViews()
-        loadOverlayViews()
         loadTopView()
+        loadOverlayViews()
     }
 
     open override func viewDidLoad() {
@@ -224,8 +224,8 @@ open class OverlayContainerViewController: UIViewController {
         groundView.pinToSuperview()
         view.addSubview(overlayTranslationContainerView)
         overlayTranslationContainerView.pinToSuperview()
-        overlayTranslationContainerView.addSubview(overlayTranslationView)
         overlayTranslationContainerView.addSubview(topView)
+        overlayTranslationContainerView.addSubview(overlayTranslationView)
         topView.pinToSuperview(edges: [.top, .left, .right])
         topView.bottomAnchor.constraint(equalTo: overlayTranslationView.topAnchor).isActive = true
         overlayTranslationView.addSubview(overlayContainerView)
