@@ -2,13 +2,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "OverlayContainer",
+    name: "OverlayContainerWithHeader",
     platforms: [
         .iOS(.v10)
     ],
     products: [
         .library(
-            name: "OverlayContainer",
+            name: "OverlayContainerWithHeader",
             targets: ["OverlayContainer"]
         ),
     ],
